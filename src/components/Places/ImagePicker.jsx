@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Button, Alert, Image } from "react-native";
 import { launchCameraAsync, useCameraPermissions, PermissionStatus } from "expo-image-picker";
 import OutlineButton from "../ui/OutlineButton";
+import Colors from "../../utlis/colors";
 
 const ImagePicker = () => {
   const [pickedImage, setPickedImage] = useState("");
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: 200,
-    backgroundColor: "#f0cced",
+    backgroundColor: Colors.primary100,
     marginVertical: 8,
     borderRadius: 8,
   },
