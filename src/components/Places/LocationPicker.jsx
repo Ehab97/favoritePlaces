@@ -4,11 +4,14 @@ import OutlineButton from "../ui/OutlineButton";
 import Colors from "../../utlis/colors";
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from "expo-location";
 import { getMapPreview } from "../../utlis/locations";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 
 const LocationPicker = () => {
-    const navigation = useNavigation();
-    const [pikedlocation, setPikedLocation] = useState(null);
+  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
+
+  const [pikedlocation, setPikedLocation] = useState(null);
   const [locationPermissionInformation, requestPermission] = useForegroundPermissions();
 
   const verifyPermissions = async () => {
@@ -48,6 +51,13 @@ const LocationPicker = () => {
       <Image source={{ uri: getMapPreview(pikedlocation.lat, pikedlocation.lng) }} style={styles.imageStyle} />
     );
   }
+
+  React.useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = route.params.pickedLocation;
+      setPikedLocation(mapPickedLocation);
+    }
+  }, [route, isFocused]);
 
   return (
     <View>
