@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import OutlineButton from "../ui/OutlineButton";
 import Colors from "../../utlis/colors";
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from "expo-location";
-import { getMapPreview } from "../../utlis/locations";
+import { getAddressesFromCoords, getMapPreview } from "../../utlis/locations";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 
-const LocationPicker = () => {
+const LocationPicker = ({ onPickeLocation }) => {
   const navigation = useNavigation();
   const route = useRoute();
   const isFocused = useIsFocused();
 
-  const [pikedlocation, setPikedLocation] = useState(null);
+  const [pickedlocation, setpickedlocation] = useState(null);
   const [locationPermissionInformation, requestPermission] = useForegroundPermissions();
 
   const verifyPermissions = async () => {
@@ -33,11 +33,20 @@ const LocationPicker = () => {
       return;
     }
     const location = await getCurrentPositionAsync();
-    console.log(location);
-    setPikedLocation({
+    console.log("getCurrentPositionAsync", location);
+    setpickedlocation({
       lat: location.coords.latitude,
       lng: location.coords.longitude,
     });
+    // const address = await getAddressesFromCoords(location.coords.latitude, location.coords.longitude);
+    // console.log("address", address);
+    // onPickeLocation({
+    //   pickedlocation: {
+    //     lat: location.coords.latitude,
+    //     lng: location.coords.longitude,
+    //   },
+    //   address,
+    // });
   };
 
   const pickOnMapHandler = () => {
@@ -46,18 +55,34 @@ const LocationPicker = () => {
 
   let locationPreview = <Text style={styles.previewText}>No location chosen yet</Text>;
 
-  if (pikedlocation) {
+  if (pickedlocation) {
     locationPreview = (
-      <Image source={{ uri: getMapPreview(pikedlocation.lat, pikedlocation.lng) }} style={styles.imageStyle} />
+      <Image source={{ uri: getMapPreview(pickedlocation.lat, pickedlocation.lng) }} style={styles.imageStyle} />
     );
   }
 
   React.useEffect(() => {
     if (isFocused && route.params) {
       const mapPickedLocation = route.params.pickedLocation;
-      setPikedLocation(mapPickedLocation);
+      setpickedlocation(mapPickedLocation);
     }
   }, [route, isFocused]);
+
+  const handleLocation = async () => {
+    const address = await getAddressesFromCoords(pickedlocation.lat, pickedlocation.lng);
+    onPickeLocation({
+      ...pickedlocation,
+      address,
+    });
+    console.log("address", address);
+    console.log("pickedlocation", pickedlocation);
+  };
+
+  React.useEffect(() => {
+    if (pickedlocation) {
+      handleLocation();
+    }
+  }, [pickedlocation, onPickeLocation]);
 
   return (
     <View>
