@@ -38,15 +38,6 @@ const LocationPicker = ({ onPickeLocation }) => {
       lat: location.coords.latitude,
       lng: location.coords.longitude,
     });
-    // const address = await getAddressesFromCoords(location.coords.latitude, location.coords.longitude);
-    // console.log("address", address);
-    // onPickeLocation({
-    //   pickedlocation: {
-    //     lat: location.coords.latitude,
-    //     lng: location.coords.longitude,
-    //   },
-    //   address,
-    // });
   };
 
   const pickOnMapHandler = () => {

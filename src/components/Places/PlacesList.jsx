@@ -13,11 +13,19 @@ const PlacesList = ({ places }) => {
   }
 
   return (
-    <FlatList data={places} renderItem={({ item }) => <PlaceItem place={item} />} keyExtractor={(item) => item.id} />
+    <FlatList
+      data={places}
+      renderItem={({ item }) => <PlaceItem place={item} />}
+      keyExtractor={(item) => item.id}
+      style={styles.list}
+    />
   );
 };
 
 const styles = StyleSheet.create({
+  list: {
+    margin: 24,
+  },
   fallBackContainer: {
     flex: 1,
     justifyContent: "center",

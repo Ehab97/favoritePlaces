@@ -4,8 +4,10 @@ import Colors from "../../utlis/colors";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Button from "../ui/Button";
+import Place from "../../Modles/Place";
+import { insertPlace } from "../../utlis/database";
 
-const PlaceForm = () => {
+const PlaceForm = ({ onCreatePleace }) => {
   const [title, setTitle] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [pickedLocation, setPickedLocation] = useState(null);
@@ -23,7 +25,8 @@ const PlaceForm = () => {
   }, []);
 
   const onSubmit = () => {
-    console.log({ title, selectedImage, pickedLocation });
+    const placeData = new Place(title, selectedImage, pickedLocation);
+    onCreatePleace(placeData);
   };
 
   return (
