@@ -9,3 +9,19 @@ export const flattenObject = (obj, parentKey = "") => {
     return acc;
   }, {});
 };
+
+export const beautifyAddress = (address) => {
+  const strsingBeutify =
+    address &&
+    address
+      .replaceAll("_", " ")
+      .replaceAll(";", ", ")
+      .replaceAll(",", ", ")
+      .replaceAll("{", "")
+      .replaceAll("}", "")
+      .replaceAll("=", " ")
+      .replaceAll('"', "")
+      .replaceAll("address", "")
+      .replaceAll("  ", "");
+  return strsingBeutify;
+};

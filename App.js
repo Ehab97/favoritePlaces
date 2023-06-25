@@ -9,6 +9,7 @@ import Map from "./src/screens/Map";
 import { useEffect, useState } from "react";
 import { init } from "./src/utlis/database";
 import LoadingOverlay from "./src/components/ui/LoadingOverlay";
+import PlaceDetails from "./src/screens/PlaceDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,13 @@ export default function App() {
               component={AllPlaces}
               options={{
                 title: "All Places",
+              }}
+            />
+            <Stack.Screen
+              name="PlaceDetails"
+              component={PlaceDetails}
+              options={{
+                title: "Location Details...",
               }}
             />
             <Stack.Screen name="Map" component={Map} />

@@ -1,25 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Colors from "../../utlis/colors";
+import { beautifyAddress } from "../../utlis/helper";
 
 export default function Address({ address }) {
-  const strsingBeutify =
-    address &&
-    address
-      .replaceAll("_", " ")
-      .replaceAll(";", ", ")
-      .replaceAll(",", ", ")
-      .replaceAll("{", "")
-      .replaceAll("}", "")
-      .replaceAll("=", " ")
-      .replaceAll('"', "")
-      .replaceAll("address", "")
-      .replaceAll("  ", "");
-  console.log("strsingBeutify", strsingBeutify);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.address}>Address: {strsingBeutify}</Text>
-      {/* <Text style={styles.text}>Display name: {jsonString?.display_name}</Text> */}
+      <Text style={styles.address}>Address: {beautifyAddress(address)}</Text>
     </View>
   );
 }
