@@ -1,14 +1,7 @@
-import * as SQLite from 'expo-sqlite'
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
-import { Updates } from 'expo';
+import * as SQLLite from "expo-sqlite";
+import Place from "../Modles/Place";
 
-const DEBUG = true;
-const DB_NAME = 'places.db';
-const SQLITE_DIRECTORY = `${FileSystem.documentDirectory}SQLite`;
-const LOCAL_SQLITE_DB = `${SQLITE_DIRECTORY}/${DB_NAME}`;
-const SOURCE_DB_ASSET = require(`./assets/db/${DB_NAME}`);
-const db = SQLite.openDatabase("places.db");
+const db = SQLLite.openDatabase("places.db");
 
 export const init = () => {
   console.log("init");
@@ -40,17 +33,13 @@ export const init = () => {
 
 export const insertPlace = (place) => {
   console.log("insertPlace", place);
+  let imageUri = place.imageUri ?? "https://picsum.photos/200/300";
+
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
         `INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)`,
-        [
-          place.title,
-          place.imageUri ?? "https://picsum.photos/200/300",
-          place.address,
-          place.location.lat,
-          place.location.lng,
-        ],
+        [place.title, imageUri, place.address, place.location.lat, place.location.lng],
         (_, result) => {
           resolve(result);
         },
@@ -72,8 +61,26 @@ export const fetchPlaces = () => {
         `SELECT * FROM places`,
         [],
         (_, result) => {
-          console.log("fetchPlaces", result);
-          resolve(result);
+          const places = [];
+          const len = result.rows.length;
+          for (let i = 0; i < len; i++) {
+            let place = result.rows.item(i);
+            // console.log("place :" + i, place.address, place.lat, place.lng, place.title, place.imageUri);
+            places.push(
+              new Place(
+                place.title,
+                place.imageUri,
+                {
+                  address: place.address,
+                  lat: place.lat,
+                  lng: place.lng,
+                },
+                place.id.toString()
+              )
+            );
+          }
+          // console.log("fetchPlaces", places);
+          resolve(places);
         },
         (_, error) => {
           reject(error);

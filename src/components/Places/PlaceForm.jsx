@@ -25,6 +25,7 @@ const PlaceForm = ({ onCreatePleace }) => {
   }, []);
 
   const onSubmit = () => {
+    console.log("pickedLocation==>2", pickedLocation);
     const placeData = new Place(title, selectedImage, pickedLocation);
     onCreatePleace(placeData);
   };

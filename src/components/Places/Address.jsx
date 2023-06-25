@@ -2,20 +2,24 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Colors from "../../utlis/colors";
 
-export default function Address(props) {
-  const { address, addresstype, category, display_name } = props.address;
-
-  // Check if address property exists
-  const addressLine = address
-    ? `${address.village ?? ""}, ${address.state ?? ""}, ${address.postcode ?? ""}, ${address.country ?? ""}`
-    : "Address not available";
-
+export default function Address({ address }) {
+  const strsingBeutify =
+    address &&
+    address
+      .replaceAll("_", " ")
+      .replaceAll(";", ", ")
+      .replaceAll(",", ", ")
+      .replaceAll("{", "")
+      .replaceAll("}", "")
+      .replaceAll("=", " ")
+      .replaceAll('"', "")
+      .replaceAll("address", "")
+      .replaceAll("  ", "");
+  console.log("strsingBeutify", strsingBeutify);
   return (
     <View style={styles.container}>
-      <Text style={styles.address}>Address: {addressLine}</Text>
-      <Text style={styles.text}>Display name: {display_name}</Text>
-      {/* <Text style={styles.label}>Address type: {addresstype}</Text>
-      <Text style={styles.label}>Category: {category}</Text> */}
+      <Text style={styles.address}>Address: {strsingBeutify}</Text>
+      {/* <Text style={styles.text}>Display name: {jsonString?.display_name}</Text> */}
     </View>
   );
 }
@@ -38,8 +42,8 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 5,
   },
-  text:{
-    fontSize:16,
-   color:Colors.gray700,
-  }
+  text: {
+    fontSize: 16,
+    color: Colors.gray700,
+  },
 });

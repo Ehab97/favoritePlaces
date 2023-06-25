@@ -5,6 +5,7 @@ import Colors from "../../utlis/colors";
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from "expo-location";
 import { getAddressesFromCoords, getMapPreview } from "../../utlis/locations";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import { flattenObject } from "../../utlis/helper";
 
 const LocationPicker = ({ onPickeLocation }) => {
   const navigation = useNavigation();
@@ -61,6 +62,7 @@ const LocationPicker = ({ onPickeLocation }) => {
 
   const handleLocation = async () => {
     const address = await getAddressesFromCoords(pickedlocation.lat, pickedlocation.lng);
+
     onPickeLocation({
       ...pickedlocation,
       address,

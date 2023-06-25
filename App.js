@@ -14,6 +14,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [dbInitialized, setDbInitialized] = useState(false);
+
   const handleDBInit = async () => {
     try {
       await init();

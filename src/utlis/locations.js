@@ -28,18 +28,20 @@ export const getMapPreview = (lat, lng) => {
 //   return address;
 // };
 
-export const  getAddressesFromCoords=async(lat, lng)=> {
+export const getAddressesFromCoords = async (lat, lng) => {
   const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
   const response = await fetch(url);
   const data = await response.json();
-  console.log(data);
-  const address = `${data.address.road}, ${data.address.city}, ${data.address.country}`;
-  console.log(address);
-  return {
-    country: data.address.country,
-    city: data.address.city,
-    road: data.address.road,
-    address: data.address,
-    display_name: data.display_name,
+  // console.log(data);
+  // const address = `${data.address.road}, ${data.address.city}, ${data.address.country}`;
+  let address = {
+    city: data.address.city ?? null,
+    country: data.address.country ?? null,
+    road: data.address.road ?? null,
   };
-}
+
+  return {
+    // ...address,
+    address: data.display_name,
+  };
+};

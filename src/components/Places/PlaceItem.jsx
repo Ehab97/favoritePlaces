@@ -4,6 +4,7 @@ import Address from "./Address";
 import Colors from "../../utlis/colors";
 
 const PlaceItem = ({ place, onSelect }) => {
+  console.log("image", place);
   return (
     <Pressable onPress={onSelect} style={({ pressed }) => [styles.item, pressed && styles.pressed]}>
       <Image source={{ uri: place.image }} style={styles.image} />
